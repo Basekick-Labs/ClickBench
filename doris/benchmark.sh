@@ -9,7 +9,7 @@ ROOT=$(pwd)
 if [[ -n "$1" ]]; then
     url="$1"
 else
-    url='https://qa-build.oss-cn-beijing.aliyuncs.com/doris_release/apache-doris-4.1.0-rc01-bin-x64.tar.gz'
+    url='https://apache-doris-releases.oss-accelerate.aliyuncs.com/apache-doris-4.1.0-rc01-bin-x64.tar.gz'
 fi
 # Download
 file_name="$(basename ${url})"
