@@ -96,8 +96,13 @@ mv *.parquet "$BE_DATA_DIR/user_files_secure"
 
 BE_ID=$(mysql -h127.0.0.1 -P9030 -uroot -N -e 'show backends' | awk '{print $1}' | head -1)
 
-PARALLEL_NUM=$(($(nproc) / 4))
-echo "Setting parallel_pipeline_task_num to $PARALLEL_NUM (cpu cores: $(nproc) / 4)"
+CORES=$(nproc)
+PARALLEL_NUM=$((CORES / 4))
+if [ "$PARALLEL_NUM" -lt 1 ]; then
+    echo "Computed parallel_pipeline_task_num ($PARALLEL_NUM) is less than 1 based on $CORES cores; clamping to 1."
+    PARALLEL_NUM=1
+fi
+echo "Setting parallel_pipeline_task_num to $PARALLEL_NUM (cpu cores: $CORES, computed as CORES/4 with min 1)"
 
 echo "start loading hits.parquet using TVF, estimated to take about 3 minutes ..."
 START=$(date +%s)
