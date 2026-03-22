@@ -5,6 +5,7 @@ QUERY_NUM=1
 
 ./clickhouse local --path . --query="$(cat create.sql)"
 cat queries.sql | while read -r query; do
+    rm -rf /dev/shm/clickhouse/*
     sync && echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
 
     echo -n "["
